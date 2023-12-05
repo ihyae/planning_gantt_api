@@ -32,6 +32,12 @@
 $ npm install
 ```
 
+## Create .env file
+
+```bash
+$ cp .env.example .env
+```
+
 ## Running docker container for mongodb
 
 ```bash
