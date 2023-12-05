@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
+import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +27,7 @@ export class AuthService {
   async login(user: User): Promise<{ accessToken: string }> {
     try {
       const validateUser = await this.validateUser(user.username, user.password)
-      const payload = { sub: validateUser.id };
+      const payload: JwtPayload = { id: validateUser.id, username: validateUser.username };
       const accessToken = this.jwtService.sign(payload);
       if (!accessToken) throw new UnauthorizedException('Unable to generate access token');
       return {
@@ -45,7 +46,7 @@ export class AuthService {
         }
       });
 
-      const payload = { sub: createdUser.id };
+      const payload = { id: createdUser.id, username: createdUser.username };
       const accessToken = this.jwtService.sign(payload);
       if (!accessToken) throw new UnauthorizedException('Unable to generate access token');
       return {

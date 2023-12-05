@@ -11,17 +11,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  username  String   @unique()
-  password  String
-  // role                Role?              @relation(fields: [roleId], references: [id], onDelete: SetNull)
-  // roleId              String?            @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  Event     Event[]
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  username    String       @unique()
+  password    String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+  ganttEvents GanttEvent[]
 }
 
-model Event {
+model GanttEvent {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   userId    String   @db.ObjectId
@@ -31,10 +29,3 @@ model Event {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
-
-// model Gantt {
-//   id                  String             @id @default(auto()) @map("_id") @db.ObjectId
-
-//   createdAt           DateTime           @default(now())
-//   updatedAt           DateTime           @default(now()) @updatedAt
-// }
