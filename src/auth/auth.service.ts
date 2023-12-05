@@ -59,29 +59,24 @@ export class AuthService {
     }
   }
   async register(user: User): Promise<{ accessToken: string, createdUser: User }> {
-    try {
-      const createdUser = await this.prisma.user.create({
-        data: {
-          username: user.username,
-          password: user.password,
-          userType: user.userType
-        }
-      });
+    const createdUser = await this.prisma.user.create({
+      data: {
+        username: user.username,
+        password: user.password,
+        userType: user.userType
+      }
+    });
 
-      const payload = {
-        id: createdUser.id,
-        username: createdUser.username,
-        userType: createdUser.userType
-      };
-      const accessToken = this.jwtService.sign(payload);
-      if (!accessToken) throw new UnauthorizedException('Unable to generate access token');
-      return {
-        accessToken,
-        createdUser,
-      };
-    } catch (error) {
-      // Handle database or other errors  
-      throw new Error(error);
-    }
+    const payload = {
+      id: createdUser.id,
+      username: createdUser.username,
+      userType: createdUser.userType
+    };
+    const accessToken = this.jwtService.sign(payload);
+    if (!accessToken) throw new UnauthorizedException('Unable to generate access token');
+    return {
+      accessToken,
+      createdUser,
+    };
   }
 }

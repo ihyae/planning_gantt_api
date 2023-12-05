@@ -10,17 +10,33 @@ export class AuthController {
 
     @Post('register')
     async register(@Body() user: User, @Res() res: Response) {
-        const { accessToken, createdUser } = await this.authService.register(user);
-        res.cookie('token', accessToken, {
-            httpOnly: true,
-            maxAge: 86400 * 1 * 1000, 
-            path: '/',
-        });
-        res.send({
-            success: true,
-            message: 'You have successfully registerd.',
-            createdUser
-        });
+        try {
+            const { accessToken, createdUser } = await this.authService.register(user);
+
+            res.cookie('token', accessToken, {
+                httpOnly: true,
+                maxAge: 86400 * 1 * 1000,
+                path: '/',
+            });
+            res.send({
+                success: true,
+                message: 'You have successfully registerd.',
+                createdUser
+            });
+        } catch (error) {
+            console.error('Register error:', error);
+            if (error.meta.target === 'User_username_key') {
+                res.status(HttpStatus.CONFLICT).send({
+                    success: false,
+                    message: 'Username must be unique',
+                });
+            }
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+                success: false,
+                message: 'Error sign up',
+            });
+        }
+
     }
 
     @Post('login')
@@ -30,7 +46,7 @@ export class AuthController {
 
             res.cookie('token', accessToken, {
                 httpOnly: true,
-                maxAge: 86400 * 1 * 1000, 
+                maxAge: 86400 * 1 * 1000,
                 path: '/',
                 secure: process.env.NODE_ENV === 'production',
             });
@@ -61,7 +77,7 @@ export class AuthController {
             message: 'You have successfully logged out.'
         });
     }
-    
+
     @UseGuards(JwtAuthGuard)
     @Get('profile')
     async getProfile(@Req() req: Request, @Res() res: Response) {

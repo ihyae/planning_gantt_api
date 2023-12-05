@@ -23,7 +23,8 @@ export class TeamLeaderGuard implements CanActivate {
         secret: process.env.JWT_SECRET
       }) as JwtPayload;
       request.user = decoded;
-      return decoded.userType === UserType.teamLeader ? true : false;
+      return (decoded.userType === UserType.teamLeader ||
+        decoded.userType === UserType.admin) ? true : false;
     } catch (error) {
       return false;
     }

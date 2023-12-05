@@ -4,13 +4,14 @@ import { JwtPayload } from 'src/auth/jwt-payload.interface';
 import { GanttProject } from '@prisma/client';
 import { Request, Response } from 'express'
 import { JwtAuthGuard } from 'src/auth/jwt-auth/jwt-auth.guard';
+import { TeamLeaderGuard } from 'src/auth/team-leader/team-leader.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('gantt-project')
 export class GanttProjectController {
     constructor(private readonly ganttProjectService: GanttProjectService) { }
 
-
+    @UseGuards(TeamLeaderGuard)
     @Post()
     async create(@Body() project: GanttProject, @Req() req: Request, @Res() res: Response) {
         try {
@@ -23,6 +24,14 @@ export class GanttProjectController {
             res.status(HttpStatus.CREATED).send(createdProject);
         } catch (error) {
             console.error('Create project error:', error);
+
+            // / Check if the error is related to a unique constraint violation
+            if (error.meta.target === 'GanttProject_name_key') {
+                res.status(HttpStatus.CONFLICT).send({
+                    success: false,
+                    message: 'Project name must be unique',
+                });
+            }
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
                 success: false,
                 message: 'Error creating Gantt project',

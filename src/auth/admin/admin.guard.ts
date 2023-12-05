@@ -23,7 +23,7 @@ export class AdminGuard implements CanActivate {
         secret: process.env.JWT_SECRET
       }) as JwtPayload;
       request.user = decoded;
-      return decoded.userType === UserType.admin ? true : false;
+      return (decoded.userType === UserType.admin )? true : false;
     } catch (error) {
       return false;
     }
