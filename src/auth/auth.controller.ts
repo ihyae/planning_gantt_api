@@ -2,8 +2,8 @@ import { Body, Controller, Get, HttpStatus, NotFoundException, Post, Req, Res, U
 import { AuthService } from './auth.service';
 import { User } from '@prisma/client';
 import { Response, Request } from 'express'; // Import the `Response` type
-import { JwtPayload } from './jwt-payload.interface';
-import { JwtAuthGuard } from './jwt-auth/jwt-auth.guard';
+import { JwtPayload } from './jwt/jwt-payload.interface';
+import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) { }

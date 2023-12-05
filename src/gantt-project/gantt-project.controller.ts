@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UnauthorizedException, HttpStatus, Req, Res, UseGuards } from '@nestjs/common';
 import { GanttProjectService } from './gantt-project.service';
-import { JwtPayload } from 'src/auth/jwt-payload.interface';
+import { JwtPayload } from 'src/auth/jwt/jwt-payload.interface';
 import { GanttProject } from '@prisma/client';
 import { Request, Response } from 'express'
-import { JwtAuthGuard } from 'src/auth/jwt-auth/jwt-auth.guard';
-import { TeamLeaderGuard } from 'src/auth/team-leader/team-leader.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
+import { TeamLeaderGuard } from 'src/auth/guards/team-leader/team-leader.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('gantt-project')

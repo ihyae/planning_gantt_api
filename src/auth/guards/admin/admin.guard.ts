@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { JwtPayload } from '../jwt-payload.interface';
+import { JwtPayload } from '../../jwt/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { UserType } from '@prisma/client';
