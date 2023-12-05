@@ -24,9 +24,14 @@ export class AuthService {
 
   }
 
+
+
   async login(user: User): Promise<{ accessToken: string }> {
     try {
       const validateUser = await this.validateUser(user.username, user.password)
+      if (!validateUser) {
+        throw new UnauthorizedException('Invalid credentials');
+      }
       const payload: JwtPayload = { id: validateUser.id, username: validateUser.username };
       const accessToken = this.jwtService.sign(payload);
       if (!accessToken) throw new UnauthorizedException('Unable to generate access token');
