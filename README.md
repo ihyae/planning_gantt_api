@@ -32,9 +32,22 @@
 $ npm install
 ```
 
+## Running docker container for mongodb
+
+```bash
+# Build image and run container
+$ docker compose up -d
+
+# Setup replica 
+$ docker exec planning_gantt_container bash /tmp/setup_replica.sh "user" "password" "27017"
+```
+
 ## Running the app
 
 ```bash
+# Migrate database
+$ npx prisma db push
+
 # development
 $ npm run start
 
