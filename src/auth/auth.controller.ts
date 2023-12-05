@@ -1,7 +1,9 @@
-import { Body, Controller, Get, HttpStatus, Post, Request, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, NotFoundException, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from '@prisma/client';
-import { Response } from 'express'; // Import the `Response` type
+import { Response, Request } from 'express'; // Import the `Response` type
+import { JwtPayload } from './jwt-payload.interface';
+import { JwtAuthGuard } from './jwt-auth/jwt-auth.guard';
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
@@ -28,7 +30,7 @@ export class AuthController {
 
             res.cookie('token', accessToken, {
                 httpOnly: true,
-                maxAge:  86400 * 1 * 1000, // Use environment variable or default to 1 day
+                maxAge: 86400 * 1 * 1000, // Use environment variable or default to 1 day
                 path: '/',
                 secure: process.env.NODE_ENV === 'production', // Set to true in production for HTTPS
             });
@@ -59,14 +61,25 @@ export class AuthController {
             message: 'You have successfully logged out.'
         });
     }
-
+    
+    @UseGuards(JwtAuthGuard)
     @Get('profile')
-    async profile(@Res() res: Response) {
+    async getProfile(@Req() req: Request, @Res() res: Response) {
+        try {
+            const { id } = req.user as JwtPayload; // Assuming the user object is set by your authentication guard
+            const userProfile = await this.authService.getProfile(id);
 
+            if (!userProfile) {
+                throw new NotFoundException('User profile not found');
+            }
 
-        res.send({
-            success: true,
-            message: 'You have successfully logged out.'
-        });
+            res.status(HttpStatus.OK).send(userProfile);
+        } catch (error) {
+            console.error('Get profile error:', error);
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+                success: false,
+                message: 'Error retrieving user profile',
+            });
+        }
     }
 }

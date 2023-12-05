@@ -7,12 +7,12 @@ import { JwtPayload } from './jwt-payload.interface';
 @Injectable()
 export class AuthService {
   constructor(
-    private prismaService: PrismaService,
+    private prisma: PrismaService,
     private jwtService: JwtService,
   ) { }
 
   async validateUser(username: string, password: string): Promise<User | null> {
-    const user = await this.prismaService.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { username }
     });
 
@@ -23,7 +23,18 @@ export class AuthService {
     return null;
 
   }
+  async getProfile(id: string) {
 
+    return await this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        username: true,
+      }
+    });
+
+
+  }
 
 
   async login(user: User): Promise<{ accessToken: string }> {
@@ -44,7 +55,7 @@ export class AuthService {
   }
   async register(user: User): Promise<{ accessToken: string, createdUser: User }> {
     try {
-      const createdUser = await this.prismaService.user.create({
+      const createdUser = await this.prisma.user.create({
         data: {
           username: user.username,
           password: user.password
