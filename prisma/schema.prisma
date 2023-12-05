@@ -11,57 +11,60 @@ datasource db {
 }
 
 model User {
-  id                    String             @id @default(auto()) @map("_id") @db.ObjectId
-  username              String             @unique()
+  id                    String                     @id @default(auto()) @map("_id") @db.ObjectId
+  username              String                     @unique()
   password              String
-  userType              UserType           @default(teamMemeber)
-  createdAt             DateTime           @default(now())
-  updatedAt             DateTime           @default(now()) @updatedAt
-  ganttEvents           GanttEvent[]
-  GanttProject          GanttProject[]
-  assignedGanttProjects UserGanttProject[]
+  userType              UserType                   @default(teamMemeber)
+  createdAt             DateTime                   @default(now())
+  updatedAt             DateTime                   @default(now()) @updatedAt
+  events                GanttEvent[]
+  projects              GanttProject[]
+  assignedGanttProjects AssignedUserGanttProject[]
 }
 
 model GanttProject {
-  id            String             @id @default(auto()) @map("_id") @db.ObjectId
+  id            String                     @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   description   String
-  userId        String             @db.ObjectId
-  createdBy     User               @relation(fields: [userId], references: [id])
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @default(now()) @updatedAt
-  GanttEvent    GanttEvent[]
-  assignedUsers UserGanttProject[]
+  userId        String                     @db.ObjectId
+  createdBy     User                       @relation(fields: [userId], references: [id])
+  createdAt     DateTime                   @default(now())
+  updatedAt     DateTime                   @default(now()) @updatedAt
+  events        GanttEvent[]
+  assignedUsers AssignedUserGanttProject[]
 }
 
-model UserGanttProject {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  userId         String       @db.ObjectId
-  assignedUser   User         @relation(fields: [userId], references: [id])
-  ganttProjectId String       @db.ObjectId
-  ganttProject   GanttProject @relation(fields: [ganttProjectId], references: [id])
-  createdAt      DateTime     @default(now())
+model AssignedUserGanttProject {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String       @db.ObjectId
+  assignedUser User         @relation(fields: [userId], references: [id])
+  projectId    String       @db.ObjectId
+  project      GanttProject @relation(fields: [projectId], references: [id])
+  createdAt    DateTime     @default(now())
 }
 
 model GanttEvent {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  title          String
-  ganttProjectId String       @db.ObjectId
-  ganttProject   GanttProject @relation(fields: [ganttProjectId], references: [id])
-  userId         String       @db.ObjectId
-  createdBy      User         @relation(fields: [userId], references: [id])
-  start          DateTime     @default(now())
-  end            DateTime     @default(now())
-  status         EventStatus  @default(pending)
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @default(now()) @updatedAt
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  projectId String       @db.ObjectId
+  project   GanttProject @relation(fields: [projectId], references: [id])
+  userId    String       @db.ObjectId
+  createdBy User         @relation(fields: [userId], references: [id])
+  start     DateTime     @default(now())
+  end       DateTime     @default(now())
+  duration  Int          @default(0)
+  status    EventStatus  @default(pending)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now()) @updatedAt
 }
 
 enum EventStatus {
-  done
+  completed
   pending
-  inProgress
-  canceled
+  inTrack
+  inTrouble
+  revoked
+  needsImmediateAttention
 }
 
 enum UserType {
