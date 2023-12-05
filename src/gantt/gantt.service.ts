@@ -21,6 +21,14 @@ export class GanttService {
           connect: { id },
         },
       },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            username: true
+          }
+        }
+      }
     });
   }
 
@@ -34,6 +42,14 @@ export class GanttService {
       where: {
         createdBy: {
           id
+        }
+      },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            username: true
+          }
         }
       }
     });
@@ -51,6 +67,14 @@ export class GanttService {
         createdBy: {
           id
         }
+      },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            username: true
+          }
+        }
       }
     });
   }
@@ -67,7 +91,16 @@ export class GanttService {
         createdBy: {
           id
         }
-      }, data
+      }, 
+      data,
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            username: true
+          }
+        }
+      }
     });
   }
 
@@ -78,7 +111,7 @@ export class GanttService {
       if (!id) {
         throw new UnauthorizedException('User not authenticated');
       }
-  
+
       return this.prisma.ganttEvent.delete({
         where: {
           id: _id,
@@ -91,6 +124,6 @@ export class GanttService {
       throw new Error('Delete event has been failed!');
 
     }
-  
+
   }
 }
