@@ -37,6 +37,19 @@ $ npm install
 ```bash
 $ cp .env.example .env
 ```
+## Generate keyfile for MongoDB replica
+
+```bash
+# create directory keyfile
+mkdir -p keyfile
+# Generate a random key and save it to the keyfile:
+openssl rand -base64 756 > keyfile/keyfile
+# Set proper permissions for the key file:
+chmod 400 keyfile/keyfile
+# Set permissions for the /tmp directory:
+chmod 777 /tmp
+
+```
 
 ## Running docker container for mongodb
 

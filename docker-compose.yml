@@ -8,8 +8,8 @@ services:
             - "${MONGODB_PORT}:27017"
         volumes:
             - mongo-db:/data/db
-            - ${REPLICA_PATH}:/tmp/setup_replica.sh
-            - /home/rocky/manage_tools/keyfile:/tmp
+            - ./scripts/setup_replica.sh:/tmp/setup_replica.sh
+            - ./keyfile:/tmp
 
         environment:
             MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
