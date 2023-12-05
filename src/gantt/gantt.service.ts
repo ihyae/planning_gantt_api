@@ -8,14 +8,14 @@ export class GanttService {
   constructor(private readonly prisma: PrismaService) { }
 
   async createEvent(event: GanttEvent, authId: string) {
-    const { title, start, end, ganttProjectId } = event;
+    const { title, start, end, projectId } = event;
     return this.prisma.ganttEvent.create({
       data: {
         title,
         start,
         end,
-        ganttProject: {
-          connect: { id: event.ganttProjectId },
+        project: {
+          connect: { id: event.projectId },
         },
         createdBy: {
           connect: { id: authId },
@@ -72,7 +72,7 @@ export class GanttService {
   }
 
   async updateEvent(_id: string, event: GanttEvent, authId: string) {
-  const { title, start, end, ganttProjectId } = event;
+  const { title, start, end, projectId } = event;
 
   return this.prisma.ganttEvent.update({
     where: {

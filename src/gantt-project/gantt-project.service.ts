@@ -94,7 +94,7 @@ export class GanttProjectService {
   async deleteGanttProject(_id: string, authId: string) {
     const events = await this.prisma.ganttEvent.findMany({
       where: {
-        ganttProjectId: _id
+        projectId: _id
       }
     })
     return await this.prisma.$transaction([
