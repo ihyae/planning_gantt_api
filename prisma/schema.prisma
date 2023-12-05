@@ -11,21 +11,61 @@ datasource db {
 }
 
 model User {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  username    String       @unique()
-  password    String
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @default(now()) @updatedAt
-  ganttEvents GanttEvent[]
+  id                    String             @id @default(auto()) @map("_id") @db.ObjectId
+  username              String             @unique()
+  password              String
+  userType              UserType           @default(teamMemeber)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @default(now()) @updatedAt
+  ganttEvents           GanttEvent[]
+  GanttProject          GanttProject[]
+  assignedGanttProjects UserGanttProject[]
+}
+
+model GanttProject {
+  id            String             @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  description   String
+  userId        String             @db.ObjectId
+  createdBy     User               @relation(fields: [userId], references: [id])
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @default(now()) @updatedAt
+  GanttEvent    GanttEvent[]
+  assignedUsers UserGanttProject[]
+}
+
+model UserGanttProject {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String       @db.ObjectId
+  assignedUser   User         @relation(fields: [userId], references: [id])
+  ganttProjectId String       @db.ObjectId
+  ganttProject   GanttProject @relation(fields: [ganttProjectId], references: [id])
+  createdAt      DateTime     @default(now())
 }
 
 model GanttEvent {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  userId    String   @db.ObjectId
-  createdBy User     @relation(fields: [userId], references: [id])
-  start     DateTime @default(now())
-  end       DateTime @default(now())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  title          String
+  ganttProjectId String       @db.ObjectId
+  ganttProject   GanttProject @relation(fields: [ganttProjectId], references: [id])
+  userId         String       @db.ObjectId
+  createdBy      User         @relation(fields: [userId], references: [id])
+  start          DateTime     @default(now())
+  end            DateTime     @default(now())
+  status         EventStatus  @default(pending)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+}
+
+enum EventStatus {
+  done
+  pending
+  inProgress
+  canceled
+}
+
+enum UserType {
+  admin
+  teamLeader
+  teamMemeber
 }

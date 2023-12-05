@@ -13,7 +13,7 @@ export class AuthController {
         const { accessToken, createdUser } = await this.authService.register(user);
         res.cookie('token', accessToken, {
             httpOnly: true,
-            maxAge: 86400 * 7 * 1000, // Max-Age is set to 7 days in milliseconds
+            maxAge: 86400 * 1 * 1000, 
             path: '/',
         });
         res.send({
@@ -30,9 +30,9 @@ export class AuthController {
 
             res.cookie('token', accessToken, {
                 httpOnly: true,
-                maxAge: 86400 * 1 * 1000, // Use environment variable or default to 1 day
+                maxAge: 86400 * 1 * 1000, 
                 path: '/',
-                secure: process.env.NODE_ENV === 'production', // Set to true in production for HTTPS
+                secure: process.env.NODE_ENV === 'production',
             });
 
             res.status(HttpStatus.OK).send({
