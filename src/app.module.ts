@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { GanttModule } from './gantt/gantt.module';
+import { GanttProjectModule } from './gantt-project/gantt-project.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { GanttModule } from './gantt/gantt.module';
     MongooseModule.forRoot(process.env.DATABASE_URL),
     AuthModule,
     GanttModule,
+    GanttProjectModule,
   ],
 })
 export class AppModule { }

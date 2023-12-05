@@ -1,4 +1,5 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { GanttEvent, GanttProject } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 
 
@@ -6,11 +7,16 @@ import { PrismaService } from 'prisma/prisma.service';
 export class GanttService {
   constructor(private readonly prisma: PrismaService) { }
 
-  async createEvent(data: { title: string, start: Date, end: Date }, authId: string) {
-
+  async createEvent(event: GanttEvent, authId: string) {
+    const { title, start, end, ganttProjectId } = event;
     return this.prisma.ganttEvent.create({
       data: {
-        ...data,
+        title,
+        start,
+        end,
+        ganttProject: {
+          connect: { id: event.ganttProjectId },
+        },
         createdBy: {
           connect: { id: authId },
         },
@@ -65,37 +71,42 @@ export class GanttService {
     });
   }
 
-  async updateEvent(_id: string, data: { title?: string, start?: Date, end?: Date }, authId: string) {
+  async updateEvent(_id: string, event: GanttEvent, authId: string) {
+  const { title, start, end, ganttProjectId } = event;
 
-    return this.prisma.ganttEvent.update({
-      where: {
-        id: _id,
-        createdBy: {
-          id: authId
-        }
-      },
-      data,
-      include: {
-        createdBy: {
-          select: {
-            id: true,
-            username: true
-          }
+  return this.prisma.ganttEvent.update({
+    where: {
+      id: _id,
+      createdBy: {
+        id: authId
+      }
+    },
+    data: {
+      title,
+      start,
+      end
+    },
+    include: {
+      createdBy: {
+        select: {
+          id: true,
+          username: true
         }
       }
-    });
-  }
+    }
+  });
+}
 
   async deleteEvent(_id: string, authId: string) {
 
-      return this.prisma.ganttEvent.delete({
-        where: {
-          id: _id,
-          createdBy: {
-            id: authId
-          }
-        }
-      });
+  return this.prisma.ganttEvent.delete({
+    where: {
+      id: _id,
+      createdBy: {
+        id: authId
+      }
+    }
+  });
 
-  }
+}
 }
