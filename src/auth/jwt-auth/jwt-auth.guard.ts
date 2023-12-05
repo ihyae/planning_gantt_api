@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Observable, isEmpty } from 'rxjs';
+import { Observable } from 'rxjs';
 import { JwtPayload } from '../jwt-payload.interface';
 import { Request } from 'express';
 

@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
+import { User, UserType } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 import { JwtPayload } from './jwt-payload.interface';
 
@@ -30,6 +30,7 @@ export class AuthService {
       select: {
         id: true,
         username: true,
+        userType: true,
       }
     });
 
@@ -43,7 +44,11 @@ export class AuthService {
       if (!validateUser) {
         throw new UnauthorizedException('Invalid credentials');
       }
-      const payload: JwtPayload = { id: validateUser.id, username: validateUser.username };
+      const payload: JwtPayload = {
+        id: validateUser.id,
+        username: validateUser.username,
+        userType: validateUser.userType
+      };
       const accessToken = this.jwtService.sign(payload);
       if (!accessToken) throw new UnauthorizedException('Unable to generate access token');
       return {
@@ -58,11 +63,16 @@ export class AuthService {
       const createdUser = await this.prisma.user.create({
         data: {
           username: user.username,
-          password: user.password
+          password: user.password,
+          userType: user.userType
         }
       });
 
-      const payload = { id: createdUser.id, username: createdUser.username };
+      const payload = {
+        id: createdUser.id,
+        username: createdUser.username,
+        userType: createdUser.userType
+      };
       const accessToken = this.jwtService.sign(payload);
       if (!accessToken) throw new UnauthorizedException('Unable to generate access token');
       return {
