@@ -1,0 +1,195 @@
+{
+    "info": {
+        "_postman_id": "9a68eb8a-b480-4a56-8067-57aa89d0d1a9",
+        "name": "Planning_gantt_api",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "delete event",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt/event/656ec53d76b62301563be390",
+                    "path": [
+                        "gantt",
+                        "event",
+                        "656ec53d76b62301563be390"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                }
+            }
+        },
+        {
+            "name": "update event",
+            "request": {
+                "method": "PATCH",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt/event/656ec6a6102ad750979f9645",
+                    "path": [
+                        "gantt",
+                        "event",
+                        "656ec6a6102ad750979f9645"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"title\": \"event 1 99999\",\n  \"start\":\"2023-01-01T12:00:00Z\",\n  \"end\":\"2023-01-01T12:00:00Z\"\n}\n"
+                }
+            }
+        },
+        {
+            "name": "create event",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt/event",
+                    "path": [
+                        "gantt",
+                        "event"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"title\":\"event 45 dev2\",\n  \"start\":\"2023-01-01T12:00:00Z\",\n  \"end\":\"2023-01-01T12:00:00Z\"\n}\n"
+                }
+            }
+        },
+        {
+            "name": "register",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/auth/register",
+                    "path": [
+                        "auth",
+                        "register"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"username\":\"hdev2\",\n  \"password\":\"123456\"\n}"
+                }
+            }
+        },
+        {
+            "name": "login",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/auth/login",
+                    "path": [
+                        "auth",
+                        "login"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"username\":\"hdev\",\n  \"password\":\"123456\"\n}"
+                }
+            }
+        },
+        {
+            "name": "profile",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/auth/profile",
+                    "path": [
+                        "auth",
+                        "profile"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                }
+            }
+        },
+        {
+            "name": "get events",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt/event",
+                    "path": [
+                        "gantt",
+                        "event"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                }
+            }
+        }
+    ]
+}

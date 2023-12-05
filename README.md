@@ -76,6 +76,13 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+## Import postman file collections
+
+```bash
+# show json collection
+$ cat collection_planning_gantt_api_postman.json
+
+```
 
 ## Test
 
