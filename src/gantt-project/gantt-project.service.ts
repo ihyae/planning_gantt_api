@@ -42,6 +42,18 @@ export class GanttProjectService {
             id: true,
             username: true
           }
+        },
+        events: true,
+        assignedUsers: {
+          select: {
+            assignedUser: {
+              select: {
+                id: true,
+                username: true,
+                userType: true,
+              }
+            }
+          }
         }
       }
     });
@@ -62,13 +74,32 @@ export class GanttProjectService {
             id: true,
             username: true
           }
+        },
+        events: true,
+        assignedUsers: {
+          select: {
+            assignedUser: {
+              select: {
+                id: true,
+                username: true,
+                userType: true,
+              }
+            }
+          }
         }
       }
     });
   }
 
-  async updateGanttProject(_id: string, project: GanttProject, authId: string) {
-    const { name, description } = project;
+  async updateGanttProject(_id: string, project: { name: string, description: string, assignedUsers: string[] }, authId: string) {
+    const { name, description, assignedUsers } = project;
+    await this.prisma.assignedUserGanttProject.deleteMany({
+      where: {
+        assignedUser: {
+          id: { in: assignedUsers },
+        }
+      }
+    })
     return this.prisma.ganttProject.update({
       where: {
         id: _id,
@@ -78,13 +109,30 @@ export class GanttProjectService {
       },
       data: {
         name,
-        description
+        description,
+        assignedUsers: {
+          createMany: {
+            data: assignedUsers.map((userId) => ({ userId })),
+          }
+        }
       },
       include: {
         createdBy: {
           select: {
             id: true,
             username: true
+          }
+        },
+        events: true,
+        assignedUsers: {
+          select: {
+            assignedUser: {
+              select: {
+                id: true,
+                username: true,
+                userType: true,
+              }
+            }
           }
         }
       }

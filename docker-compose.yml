@@ -3,7 +3,7 @@ services:
     database:
         container_name: planning_gantt_container
         image: 'amd64/mongo:4.4'
-        # restart: always
+        restart: always
         ports:
             - "${MONGODB_PORT}:27017"
         volumes:

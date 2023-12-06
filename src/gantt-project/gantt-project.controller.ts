@@ -77,8 +77,9 @@ export class GanttProjectController {
         }
     }
 
+    @UseGuards(TeamLeaderGuard)
     @Patch(':id')
-    async update(@Param('id') id: string, @Body() project: GanttProject, @Req() req: Request, @Res() res: Response) {
+    async update(@Param('id') id: string, @Body() project: { name: string, description: string, assignedUsers: string[] }, @Req() req: Request, @Res() res: Response) {
         try {
             const auth = req.user as JwtPayload;
             if (!auth.id) {
@@ -96,7 +97,7 @@ export class GanttProjectController {
         }
     }
 
-
+    @UseGuards(TeamLeaderGuard)
     @Delete(':id')
     async remove(@Param('id') id: string, @Req() req: Request, @Res() res: Response) {
         try {
