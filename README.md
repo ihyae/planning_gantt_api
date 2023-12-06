@@ -26,6 +26,12 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Clone branch v2
+
+```bash
+$ git clone -b v2 https://github.com/ihyae/planning_gantt_api.git
+```
+
 ## Installation
 
 ```bash
