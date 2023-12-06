@@ -1,195 +1,193 @@
 {
-    "info": {
-        "_postman_id": "9a68eb8a-b480-4a56-8067-57aa89d0d1a9",
-        "name": "Planning_gantt_api",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "description": ""
-    },
-    "item": [
+    "client": "Thunder Client",
+    "collectionName": "Planning_gantt_api",
+    "dateExported": "2023-12-06T02:42:10.170Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
         {
+            "_id": "58c5501b-919c-472a-88c5-0d00c2d33038",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
             "name": "delete event",
-            "request": {
-                "method": "DELETE",
-                "url": {
-                    "raw": "http://192.168.16.130:4000/gantt/event/656ec53d76b62301563be390",
-                    "path": [
-                        "gantt",
-                        "event",
-                        "656ec53d76b62301563be390"
-                    ],
-                    "protocol": "http",
-                    "host": [
-                        "192",
-                        "168",
-                        "16",
-                        "130"
-                    ],
-                    "port": "4000"
-                }
-            }
+            "url": "http://192.168.16.130:4000/gantt/event/656f043cab9b5168666d847a",
+            "method": "DELETE",
+            "sortNum": 10000,
+            "created": "2023-12-05T08:20:50.262Z",
+            "modified": "2023-12-05T11:07:15.833Z",
+            "headers": [],
+            "params": [],
+            "tests": []
         },
         {
+            "_id": "fcdb7383-f05f-4d63-b007-ffdd919a1a8e",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
+            "name": "delete project",
+            "url": "http://192.168.16.130:4000/gantt-project/656faaa6decd6ddcad73916f",
+            "method": "DELETE",
+            "sortNum": 15000,
+            "created": "2023-12-05T22:59:06.594Z",
+            "modified": "2023-12-05T23:14:43.244Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "2c81baf3-9535-40a5-86af-afa67928d70b",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
             "name": "update event",
-            "request": {
-                "method": "PATCH",
-                "url": {
-                    "raw": "http://192.168.16.130:4000/gantt/event/656ec6a6102ad750979f9645",
-                    "path": [
-                        "gantt",
-                        "event",
-                        "656ec6a6102ad750979f9645"
-                    ],
-                    "protocol": "http",
-                    "host": [
-                        "192",
-                        "168",
-                        "16",
-                        "130"
-                    ],
-                    "port": "4000"
-                },
-                "body": {
-                    "mode": "raw",
-                    "options": {
-                        "raw": {
-                            "language": "json"
-                        }
-                    },
-                    "raw": "{\n  \"title\": \"event 1 99999\",\n  \"start\":\"2023-01-01T12:00:00Z\",\n  \"end\":\"2023-01-01T12:00:00Z\"\n}\n"
-                }
-            }
+            "url": "http://192.168.16.130:4000/gantt/event/656f043cab9b5168666d847a",
+            "method": "PATCH",
+            "sortNum": 20000,
+            "created": "2023-12-05T08:21:03.410Z",
+            "modified": "2023-12-05T11:06:51.197Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"event 1 99999\",\n  \"start\":\"2023-01-01T12:00:00Z\",\n  \"end\":\"2023-01-01T12:00:00Z\"\n}\n",
+                "form": []
+            },
+            "tests": []
         },
         {
+            "_id": "e034f8b4-a258-4aee-9b93-318f94481e36",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
             "name": "create event",
-            "request": {
-                "method": "POST",
-                "url": {
-                    "raw": "http://192.168.16.130:4000/gantt/event",
-                    "path": [
-                        "gantt",
-                        "event"
-                    ],
-                    "protocol": "http",
-                    "host": [
-                        "192",
-                        "168",
-                        "16",
-                        "130"
-                    ],
-                    "port": "4000"
-                },
-                "body": {
-                    "mode": "raw",
-                    "options": {
-                        "raw": {
-                            "language": "json"
-                        }
-                    },
-                    "raw": "{\n  \"title\":\"event 45 dev2\",\n  \"start\":\"2023-01-01T12:00:00Z\",\n  \"end\":\"2023-01-01T12:00:00Z\"\n}\n"
-                }
-            }
+            "url": "http://192.168.16.130:4000/gantt/event",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-12-05T08:21:12.376Z",
+            "modified": "2023-12-06T00:40:33.161Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\":\"event 01\",\n  \"start\":\"2023-01-01T12:00:00Z\",\n  \"end\":\"2023-01-01T12:00:00Z\",\n  \"projectId\":\"656f9c6c1bb61f904355f72f\"\n}\n",
+                "form": []
+            },
+            "tests": []
         },
         {
+            "_id": "6f0f48e0-687a-472c-ab94-32a5a2d23a66",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
+            "name": "create project",
+            "url": "http://192.168.16.130:4000/gantt-project",
+            "method": "POST",
+            "sortNum": 35000,
+            "created": "2023-12-05T21:14:24.302Z",
+            "modified": "2023-12-06T02:39:08.011Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Project 04\",\n  \"description\":\"project description\",\n  \"assignedUsers\":[\"656fdb9e29c381d25008eec6\"]\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "fb6ae08f-4ca7-4c1b-a3f1-60cf15fc4560",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
+            "name": "update project",
+            "url": "http://192.168.16.130:4000/gantt-project/656fdc21adb2b0e1dcaf76c2",
+            "method": "PATCH",
+            "sortNum": 37500,
+            "created": "2023-12-05T21:44:01.314Z",
+            "modified": "2023-12-06T02:29:24.250Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Project 002\",\n  \"description\":\"project description\",\n  \"assignedUsers\":[\"656fdb9e29c381d25008eec6\"]\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c270b8b3-ceb1-4e36-8e8b-c208195cacf9",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
             "name": "register",
-            "request": {
-                "method": "POST",
-                "url": {
-                    "raw": "http://192.168.16.130:4000/auth/register",
-                    "path": [
-                        "auth",
-                        "register"
-                    ],
-                    "protocol": "http",
-                    "host": [
-                        "192",
-                        "168",
-                        "16",
-                        "130"
-                    ],
-                    "port": "4000"
-                },
-                "body": {
-                    "mode": "raw",
-                    "options": {
-                        "raw": {
-                            "language": "json"
-                        }
-                    },
-                    "raw": "{\n  \"username\":\"hdev2\",\n  \"password\":\"123456\"\n}"
-                }
-            }
+            "url": "http://192.168.16.130:4000/auth/register",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-12-05T08:21:20.633Z",
+            "modified": "2023-12-05T22:56:15.121Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\":\"admin2\",\n  \"password\":\"123456\",\n  \"userType\": \"admin\"\n}",
+                "form": []
+            },
+            "tests": []
         },
         {
+            "_id": "b3935394-8a8e-44fc-818c-4ecbf766fa54",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
             "name": "login",
-            "request": {
-                "method": "POST",
-                "url": {
-                    "raw": "http://192.168.16.130:4000/auth/login",
-                    "path": [
-                        "auth",
-                        "login"
-                    ],
-                    "protocol": "http",
-                    "host": [
-                        "192",
-                        "168",
-                        "16",
-                        "130"
-                    ],
-                    "port": "4000"
-                },
-                "body": {
-                    "mode": "raw",
-                    "options": {
-                        "raw": {
-                            "language": "json"
-                        }
-                    },
-                    "raw": "{\n  \"username\":\"hdev\",\n  \"password\":\"123456\"\n}"
-                }
-            }
+            "url": "http://192.168.16.130:4000/auth/login",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-12-05T08:21:30.817Z",
+            "modified": "2023-12-06T02:39:58.012Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\":\"team_member1\",\n  \"password\":\"123456\"\n}",
+                "form": []
+            },
+            "tests": []
         },
         {
+            "_id": "cd3142fa-5f66-4933-9793-e19e7062779d",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
             "name": "profile",
-            "request": {
-                "method": "GET",
-                "url": {
-                    "raw": "http://192.168.16.130:4000/auth/profile",
-                    "path": [
-                        "auth",
-                        "profile"
-                    ],
-                    "protocol": "http",
-                    "host": [
-                        "192",
-                        "168",
-                        "16",
-                        "130"
-                    ],
-                    "port": "4000"
-                }
-            }
+            "url": "http://192.168.16.130:4000/auth/profile",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2023-12-05T08:21:35.945Z",
+            "modified": "2023-12-05T08:21:35.945Z",
+            "headers": [],
+            "params": [],
+            "tests": []
         },
         {
+            "_id": "17831c0d-59be-4932-9e6e-2259684d05e5",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
             "name": "get events",
-            "request": {
-                "method": "GET",
-                "url": {
-                    "raw": "http://192.168.16.130:4000/gantt/event",
-                    "path": [
-                        "gantt",
-                        "event"
-                    ],
-                    "protocol": "http",
-                    "host": [
-                        "192",
-                        "168",
-                        "16",
-                        "130"
-                    ],
-                    "port": "4000"
-                }
-            }
+            "url": "http://192.168.16.130:4000/gantt/event",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2023-12-05T08:21:41.336Z",
+            "modified": "2023-12-05T08:21:41.336Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "798c205d-b805-4c2e-9605-68764c1f2244",
+            "colId": "3df2456d-d6fd-4637-a878-8d67837c12d0",
+            "containerId": "",
+            "name": "get projects",
+            "url": "http://192.168.16.130:4000/gantt-project",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2023-12-05T22:57:05.485Z",
+            "modified": "2023-12-05T22:57:16.461Z",
+            "headers": [],
+            "params": [],
+            "tests": []
         }
     ]
 }
