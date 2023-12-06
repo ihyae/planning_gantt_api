@@ -1,0 +1,295 @@
+{
+    "info": {
+        "_postman_id": "94103833-274e-477e-828e-8683ef8a3b57",
+        "name": "Planning_gantt_api",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "delete event",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt/event/656f043cab9b5168666d847a",
+                    "path": [
+                        "gantt",
+                        "event",
+                        "656f043cab9b5168666d847a"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                }
+            }
+        },
+        {
+            "name": "update event",
+            "request": {
+                "method": "PATCH",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt/event/656f043cab9b5168666d847a",
+                    "path": [
+                        "gantt",
+                        "event",
+                        "656f043cab9b5168666d847a"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"title\": \"event 1 99999\",\n  \"start\":\"2023-01-01T12:00:00Z\",\n  \"end\":\"2023-01-01T12:00:00Z\"\n}\n"
+                }
+            }
+        },
+        {
+            "name": "create event",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt/event",
+                    "path": [
+                        "gantt",
+                        "event"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"title\":\"event 01\",\n  \"start\":\"2023-01-01T12:00:00Z\",\n  \"end\":\"2023-01-01T12:00:00Z\",\n  \"projectId\":\"656f9c6c1bb61f904355f72f\"\n}\n"
+                }
+            }
+        },
+        {
+            "name": "register",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/auth/register",
+                    "path": [
+                        "auth",
+                        "register"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"username\":\"admin2\",\n  \"password\":\"123456\",\n  \"userType\": \"admin\"\n}"
+                }
+            }
+        },
+        {
+            "name": "login",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/auth/login",
+                    "path": [
+                        "auth",
+                        "login"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"username\":\"team_member1\",\n  \"password\":\"123456\"\n}"
+                }
+            }
+        },
+        {
+            "name": "profile",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/auth/profile",
+                    "path": [
+                        "auth",
+                        "profile"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                }
+            }
+        },
+        {
+            "name": "get events",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt/event",
+                    "path": [
+                        "gantt",
+                        "event"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                }
+            }
+        },
+        {
+            "name": "create project",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt-project",
+                    "path": [
+                        "gantt-project"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"name\":\"Project 04\",\n  \"description\":\"project description\",\n  \"assignedUsers\":[\"656fdb9e29c381d25008eec6\"]\n}\n"
+                }
+            }
+        },
+        {
+            "name": "update project",
+            "request": {
+                "method": "PATCH",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt-project/656fdc21adb2b0e1dcaf76c2",
+                    "path": [
+                        "gantt-project",
+                        "656fdc21adb2b0e1dcaf76c2"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"name\":\"Project 002\",\n  \"description\":\"project description\",\n  \"assignedUsers\":[\"656fdb9e29c381d25008eec6\"]\n}\n"
+                }
+            }
+        },
+        {
+            "name": "get projects",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt-project",
+                    "path": [
+                        "gantt-project"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                }
+            }
+        },
+        {
+            "name": "delete project",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                    "raw": "http://192.168.16.130:4000/gantt-project/656faaa6decd6ddcad73916f",
+                    "path": [
+                        "gantt-project",
+                        "656faaa6decd6ddcad73916f"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "192",
+                        "168",
+                        "16",
+                        "130"
+                    ],
+                    "port": "4000"
+                }
+            }
+        }
+    ]
+}
