@@ -6,9 +6,9 @@ import { PrismaService } from 'prisma/prisma.service';
 export class GanttProjectService {
   constructor(private readonly prisma: PrismaService) { }
 
-  async createGanttProject(project: GanttProject, authId: string) {
+  async createGanttProject(project: { name: string, description: string, assignedUsers: string[] }, authId: string) {
 
-    const { name, description } = project;
+    const { name, description, assignedUsers } = project;
     return this.prisma.ganttProject.create({
       data: {
         name,
@@ -16,12 +16,28 @@ export class GanttProjectService {
         createdBy: {
           connect: { id: authId },
         },
+        assignedUsers: {
+          createMany: {
+            data: assignedUsers.map((userId) => ({ userId })),
+          }
+        }
       },
       include: {
         createdBy: {
           select: {
             id: true,
             username: true
+          }
+        },
+        assignedUsers: {
+          select: {
+            assignedUser: {
+              select: {
+                id: true,
+                username: true,
+                userType: true,
+              }
+            }
           }
         }
       }
@@ -32,9 +48,18 @@ export class GanttProjectService {
 
     return this.prisma.ganttProject.findMany({
       where: {
-        createdBy: {
-          id: authId
-        }
+        OR: [
+          { createdBy: { id: authId } },
+          {
+            assignedUsers: {
+              some: {
+                assignedUser: {
+                  id: authId
+                }
+              }
+            }
+          },
+        ],
       },
       include: {
         createdBy: {
@@ -95,9 +120,7 @@ export class GanttProjectService {
     const { name, description, assignedUsers } = project;
     await this.prisma.assignedUserGanttProject.deleteMany({
       where: {
-        assignedUser: {
-          id: { in: assignedUsers },
-        }
+        userId: { in: assignedUsers },
       }
     })
     return this.prisma.ganttProject.update({

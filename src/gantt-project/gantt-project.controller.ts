@@ -13,7 +13,7 @@ export class GanttProjectController {
 
     @UseGuards(TeamLeaderGuard)
     @Post()
-    async create(@Body() project: GanttProject, @Req() req: Request, @Res() res: Response) {
+    async create(@Body() project: { name: string, description: string, assignedUsers: string[] }, @Req() req: Request, @Res() res: Response) {
         try {
             const auth = req.user as JwtPayload;
             if (!auth.id) {
