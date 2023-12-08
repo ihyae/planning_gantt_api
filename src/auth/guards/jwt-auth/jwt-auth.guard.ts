@@ -6,12 +6,11 @@ import { Request } from 'express';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) { }
+  constructor(private readonly jwtService: JwtService) {}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-
     const request: Request = context.switchToHttp().getRequest();
 
     // Check for a Bearer token in the Authorization header
@@ -24,7 +23,7 @@ export class JwtAuthGuard implements CanActivate {
       if (!token) return false;
       try {
         const decoded = this.jwtService.verify(token, {
-          secret: process.env.JWT_SECRET
+          secret: process.env.JWT_SECRET,
         }) as JwtPayload;
         request.user = decoded as JwtPayload;
         return true;
@@ -36,7 +35,7 @@ export class JwtAuthGuard implements CanActivate {
     if (cookieToken) {
       try {
         const decoded = this.jwtService.verify(cookieToken, {
-          secret: process.env.JWT_SECRET
+          secret: process.env.JWT_SECRET,
         }) as JwtPayload;
         request.user = decoded;
         return true;

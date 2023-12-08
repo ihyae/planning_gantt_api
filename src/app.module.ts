@@ -16,4 +16,4 @@ import { GanttProjectModule } from './gantt-project/gantt-project.module';
     GanttProjectModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

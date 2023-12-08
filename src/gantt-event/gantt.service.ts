@@ -2,10 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { GanttEvent, GanttProject } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 
-
 @Injectable()
 export class GanttService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async createEvent(event: GanttEvent, authId: string) {
     const { title, start, end, projectId } = event;
@@ -25,52 +24,50 @@ export class GanttService {
         createdBy: {
           select: {
             id: true,
-            username: true
-          }
+            username: true,
+          },
         },
-        project: true
-      }
+        project: true,
+      },
     });
   }
 
   async getEvents(authId: string) {
-
     return this.prisma.ganttEvent.findMany({
       where: {
         createdBy: {
-          id: authId
-        }
+          id: authId,
+        },
       },
       include: {
         createdBy: {
           select: {
             id: true,
-            username: true
-          }
+            username: true,
+          },
         },
-        project: true
+        project: true,
       },
     });
   }
 
   async getEventById(_id: string, authId: string) {
-
     return this.prisma.ganttEvent.findUnique({
       where: {
         id: _id,
         createdBy: {
-          id: authId
-        }
+          id: authId,
+        },
       },
       include: {
         createdBy: {
           select: {
             id: true,
-            username: true
-          }
+            username: true,
+          },
         },
-        project:true
-      }
+        project: true,
+      },
     });
   }
 
@@ -81,36 +78,34 @@ export class GanttService {
       where: {
         id: _id,
         createdBy: {
-          id: authId
-        }
+          id: authId,
+        },
       },
       data: {
         title,
         start,
-        end
+        end,
       },
       include: {
         createdBy: {
           select: {
             id: true,
-            username: true
-          }
+            username: true,
+          },
         },
-        project:true
-      }
+        project: true,
+      },
     });
   }
 
   async deleteEvent(_id: string, authId: string) {
-
     return this.prisma.ganttEvent.delete({
       where: {
         id: _id,
         createdBy: {
-          id: authId
-        }
-      }
+          id: authId,
+        },
+      },
     });
-
   }
 }

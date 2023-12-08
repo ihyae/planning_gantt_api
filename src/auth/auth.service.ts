@@ -9,11 +9,11 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async validateUser(username: string, password: string): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
-      where: { username }
+      where: { username },
     });
 
     if (user && user.password === password) {
@@ -21,36 +21,35 @@ export class AuthService {
     }
 
     return null;
-
   }
   async getProfile(id: string) {
-
     return await this.prisma.user.findUnique({
       where: { id },
       select: {
         id: true,
         username: true,
         userType: true,
-      }
+      },
     });
-
-
   }
-
 
   async login(user: User): Promise<{ accessToken: string }> {
     try {
-      const validateUser = await this.validateUser(user.username, user.password)
+      const validateUser = await this.validateUser(
+        user.username,
+        user.password,
+      );
       if (!validateUser) {
         throw new UnauthorizedException('Invalid credentials');
       }
       const payload: JwtPayload = {
         id: validateUser.id,
         username: validateUser.username,
-        userType: validateUser.userType
+        userType: validateUser.userType,
       };
       const accessToken = this.jwtService.sign(payload);
-      if (!accessToken) throw new UnauthorizedException('Unable to generate access token');
+      if (!accessToken)
+        throw new UnauthorizedException('Unable to generate access token');
       return {
         accessToken,
       };
@@ -58,22 +57,25 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
   }
-  async register(user: User): Promise<{ accessToken: string, createdUser: User }> {
+  async register(
+    user: User,
+  ): Promise<{ accessToken: string; createdUser: User }> {
     const createdUser = await this.prisma.user.create({
       data: {
         username: user.username,
         password: user.password,
-        userType: user.userType
-      }
+        userType: user.userType,
+      },
     });
 
     const payload = {
       id: createdUser.id,
       username: createdUser.username,
-      userType: createdUser.userType
+      userType: createdUser.userType,
     };
     const accessToken = this.jwtService.sign(payload);
-    if (!accessToken) throw new UnauthorizedException('Unable to generate access token');
+    if (!accessToken)
+      throw new UnauthorizedException('Unable to generate access token');
     return {
       accessToken,
       createdUser,

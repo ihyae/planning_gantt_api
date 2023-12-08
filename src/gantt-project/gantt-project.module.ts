@@ -8,4 +8,4 @@ import { JwtService } from '@nestjs/jwt';
   controllers: [GanttProjectController],
   providers: [GanttProjectService, PrismaService, JwtService],
 })
-export class GanttProjectModule { }
+export class GanttProjectModule {}

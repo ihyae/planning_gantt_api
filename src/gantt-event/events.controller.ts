@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Res, UnauthorizedException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Req,
+  Res,
+  UnauthorizedException,
+  HttpStatus,
+} from '@nestjs/common';
 import { GanttService } from './gantt.service';
 import { GanttEvent } from '@prisma/client';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
@@ -8,11 +21,14 @@ import { JwtPayload } from 'src/auth/jwt/jwt-payload.interface';
 @UseGuards(JwtAuthGuard)
 @Controller('gantt/event')
 export class EventsController {
-  constructor(private readonly ganttService: GanttService) { }
-
+  constructor(private readonly ganttService: GanttService) {}
 
   @Post()
-  async create(@Body() event: GanttEvent, @Req() req: Request, @Res() res: Response) {
+  async create(
+    @Body() event: GanttEvent,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     try {
       const auth = req.user as JwtPayload;
       if (!auth.id) {
@@ -37,7 +53,7 @@ export class EventsController {
       if (!auth.id) {
         throw new UnauthorizedException('User not authenticated');
       }
-      const events = await this.ganttService.getEvents(auth.id);;
+      const events = await this.ganttService.getEvents(auth.id);
 
       res.status(HttpStatus.CREATED).send(events);
     } catch (error) {
@@ -50,13 +66,17 @@ export class EventsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response) {
+  async findOne(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     try {
       const auth = req.user as JwtPayload;
       if (!auth.id) {
         throw new UnauthorizedException('User not authenticated');
       }
-      const event = await this.ganttService.getEventById(id, auth.id);;
+      const event = await this.ganttService.getEventById(id, auth.id);
 
       res.status(HttpStatus.CREATED).send(event);
     } catch (error) {
@@ -69,13 +89,22 @@ export class EventsController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() event: GanttEvent, @Req() req: Request, @Res() res: Response) {
+  async update(
+    @Param('id') id: string,
+    @Body() event: GanttEvent,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     try {
       const auth = req.user as JwtPayload;
       if (!auth.id) {
         throw new UnauthorizedException('User not authenticated');
       }
-      const updatedEvent = await this.ganttService.updateEvent(id, event, auth.id);;
+      const updatedEvent = await this.ganttService.updateEvent(
+        id,
+        event,
+        auth.id,
+      );
 
       res.status(HttpStatus.CREATED).send(updatedEvent);
     } catch (error) {
@@ -87,15 +116,18 @@ export class EventsController {
     }
   }
 
-
   @Delete(':id')
-  async remove(@Param('id') id: string, @Req() req: Request, @Res() res: Response) {
+  async remove(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     try {
       const auth = req.user as JwtPayload;
       if (!auth.id) {
         throw new UnauthorizedException('User not authenticated');
       }
-      const event = await this.ganttService.deleteEvent(id, auth.id);;
+      const event = await this.ganttService.deleteEvent(id, auth.id);
 
       res.status(HttpStatus.CREATED).send(event);
     } catch (error) {

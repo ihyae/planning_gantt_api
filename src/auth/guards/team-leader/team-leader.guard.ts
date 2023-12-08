@@ -7,7 +7,7 @@ import { UserType } from '@prisma/client';
 
 @Injectable()
 export class TeamLeaderGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) { }
+  constructor(private readonly jwtService: JwtService) {}
 
   canActivate(
     context: ExecutionContext,
@@ -17,14 +17,15 @@ export class TeamLeaderGuard implements CanActivate {
     const cookieToken = request.cookies.token;
     if (!cookieToken) return false;
 
-
     try {
       const decoded = this.jwtService.verify(cookieToken, {
-        secret: process.env.JWT_SECRET
+        secret: process.env.JWT_SECRET,
       }) as JwtPayload;
       request.user = decoded;
-      return (decoded.userType === UserType.teamLeader ||
-        decoded.userType === UserType.admin) ? true : false;
+      return decoded.userType === UserType.teamLeader ||
+        decoded.userType === UserType.admin
+        ? true
+        : false;
     } catch (error) {
       return false;
     }

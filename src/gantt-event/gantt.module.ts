@@ -6,6 +6,6 @@ import { JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [EventsController],
-  providers: [GanttService, PrismaService,JwtService],
+  providers: [GanttService, PrismaService, JwtService],
 })
-export class GanttModule { }
+export class GanttModule {}
