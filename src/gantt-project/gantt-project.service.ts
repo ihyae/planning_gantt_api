@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { GanttProject } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class GanttProjectService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async createGanttProject(
     project: { name: string; description: string; assignedUsers: string[] },

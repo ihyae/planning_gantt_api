@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { JwtPayload } from '../../jwt/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { UserType } from '@prisma/client';
+import { JwtPayload } from '../../jwt/jwt-payload.interface';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
@@ -22,7 +22,7 @@ export class AdminGuard implements CanActivate {
         secret: process.env.JWT_SECRET,
       }) as JwtPayload;
       request.user = decoded;
-      return decoded.userType === UserType.admin ? true : false;
+      return decoded.userType === UserType.admin;
     } catch (error) {
       return false;
     }

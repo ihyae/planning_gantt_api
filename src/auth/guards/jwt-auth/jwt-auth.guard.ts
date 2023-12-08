@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
-import { JwtPayload } from '../../jwt/jwt-payload.interface';
 import { Request } from 'express';
+import { JwtPayload } from '../../jwt/jwt-payload.interface';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -14,7 +14,7 @@ export class JwtAuthGuard implements CanActivate {
     const request: Request = context.switchToHttp().getRequest();
 
     // Check for a Bearer token in the Authorization header
-    const authHeader = request.headers['authorization'];
+    const authHeader = request.headers.authorization;
     const cookieToken = request.cookies.token;
     if (!authHeader && !cookieToken) return false;
 

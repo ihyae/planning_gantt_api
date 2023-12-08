@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User, UserType } from '@prisma/client';
+import { User } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 import { JwtPayload } from './jwt/jwt-payload.interface';
 
@@ -22,6 +22,7 @@ export class AuthService {
 
     return null;
   }
+
   async getProfile(id: string) {
     return await this.prisma.user.findUnique({
       where: { id },
@@ -57,6 +58,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
   }
+
   async register(
     user: User,
   ): Promise<{ accessToken: string; createdUser: User }> {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GanttEvent, GanttProject } from '@prisma/client';
+import { GanttEvent } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class GanttService {
         start,
         end,
         project: {
-          connect: { id: event.projectId },
+          connect: { id: projectId },
         },
         createdBy: {
           connect: { id: authId },
@@ -72,7 +72,7 @@ export class GanttService {
   }
 
   async updateEvent(_id: string, event: GanttEvent, authId: string) {
-    const { title, start, end, projectId } = event;
+    const { title, start, end } = event;
 
     return this.prisma.ganttEvent.update({
       where: {

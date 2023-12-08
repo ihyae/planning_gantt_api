@@ -12,11 +12,11 @@ import {
   UnauthorizedException,
   HttpStatus,
 } from '@nestjs/common';
-import { GanttService } from './gantt.service';
 import { GanttEvent } from '@prisma/client';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { Request, Response } from 'express';
 import { JwtPayload } from 'src/auth/jwt/jwt-payload.interface';
+import { GanttService } from './gantt.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('gantt/event')
