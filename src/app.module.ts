@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { GanttModule } from './gantt-event/gantt.module';
 import { GanttProjectModule } from './gantt-project/gantt-project.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { GanttProjectModule } from './gantt-project/gantt-project.module';
     AuthModule,
     GanttModule,
     GanttProjectModule,
+    UserModule,
   ],
 })
 export class AppModule {}
