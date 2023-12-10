@@ -1,14 +1,30 @@
-import { Injectable } from '@nestjs/common';
-import { GanttEvent } from '@prisma/client';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { GanttEvent, Prisma, UserType } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
+import { GanttEventDto } from './dto/gantt-event.dto';
+import { JwtPayload } from 'src/auth/jwt/jwt-payload.interface';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Injectable()
 export class GanttService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createEvent(event: GanttEvent, authId: string) {
+  async createEvent(event: GanttEventDto, auth: JwtPayload) {
     const { title, start, end, projectId } = event;
-    return this.prisma.ganttEvent.create({
+    // Check if project exists
+    await this.findProjectById(projectId);
+
+    // If user is a team member, check permission
+    if (auth.userType === UserType.teamMember) {
+      await this.checkUserPermission(auth.id, projectId);
+    }
+
+    // Create the Gantt event
+    return await this.prisma.ganttEvent.create({
       data: {
         title,
         start,
@@ -17,7 +33,7 @@ export class GanttService {
           connect: { id: projectId },
         },
         createdBy: {
-          connect: { id: authId },
+          connect: { id: auth.id },
         },
       },
       include: {
@@ -31,14 +47,43 @@ export class GanttService {
       },
     });
   }
+  private async findProjectById(projectId: string): Promise<void> {
+    const project = await this.prisma.ganttProject.findUnique({
+      where: {
+        id: projectId,
+      },
+    });
+    if (!project) {
+      throw new NotFoundException('Selected project not found!');
+    }
+  }
 
-  async getEvents(authId: string) {
+  private async checkUserPermission(
+    userId: string,
+    projectId: string,
+  ): Promise<void> {
+    const assignedProj = await this.prisma.assignedUserGanttProject.findFirst({
+      where: {
+        projectId,
+        userId,
+      },
+    });
+
+    if (!assignedProj) {
+      throw new UnauthorizedException(
+        "You don't have permission to add an event!",
+      );
+    }
+  }
+  async getEvents(auth: JwtPayload) {
+    let where: { createdBy?: { id: string } };
+    if (auth.userType !== UserType.admin) {
+      where = {
+        createdBy: { id: auth.id },
+      };
+    }
     return this.prisma.ganttEvent.findMany({
-      where: {
-        createdBy: {
-          id: authId,
-        },
-      },
+      where,
       include: {
         createdBy: {
           select: {
@@ -51,14 +96,21 @@ export class GanttService {
     });
   }
 
-  async getEventById(_id: string, authId: string) {
-    return this.prisma.ganttEvent.findUnique({
-      where: {
-        id: _id,
-        createdBy: {
-          id: authId,
-        },
-      },
+  async getEventById(id: string, auth: JwtPayload) {
+    let where: { id: string; createdBy?: { id: string } };
+    if (auth.userType === UserType.admin) {
+      where = {
+        id,
+      };
+    } else {
+      where = {
+        id,
+        createdBy: { id: auth.id },
+      };
+    }
+
+    const event = await this.prisma.ganttEvent.findUnique({
+      where,
       include: {
         createdBy: {
           select: {
@@ -69,18 +121,29 @@ export class GanttService {
         project: true,
       },
     });
+
+    if (!event) {
+      throw new NotFoundException('Event not found!');
+    }
+    return event;
   }
 
-  async updateEvent(_id: string, event: GanttEvent, authId: string) {
-    const { title, start, end } = event;
+  async updateEvent(event: UpdateEventDto, auth: JwtPayload) {
+    const { id, title, start, end } = event;
+    let where: { id: string; createdBy?: { id: string } };
+    if (auth.userType === UserType.admin) {
+      where = {
+        id,
+      };
+    } else {
+      where = {
+        id,
+        createdBy: { id: auth.id },
+      };
+    }
 
     return this.prisma.ganttEvent.update({
-      where: {
-        id: _id,
-        createdBy: {
-          id: authId,
-        },
-      },
+      where,
       data: {
         title,
         start,
@@ -98,14 +161,26 @@ export class GanttService {
     });
   }
 
-  async deleteEvent(_id: string, authId: string) {
-    return this.prisma.ganttEvent.delete({
-      where: {
-        id: _id,
-        createdBy: {
-          id: authId,
-        },
-      },
+  async deleteEvent(eventId: string, auth: JwtPayload) {
+    let where: { id: string; createdBy?: { id: string } };
+    if (auth.userType === UserType.admin) {
+      where = {
+        id: eventId,
+      };
+    } else {
+      where = {
+        id: eventId,
+        createdBy: { id: auth.id },
+      };
+    }
+    const deletedEvent = await this.prisma.ganttEvent.delete({
+      where,
     });
+
+    if (!deletedEvent) {
+      throw new NotFoundException('Event not found!');
+    }
+
+    return deletedEvent;
   }
 }

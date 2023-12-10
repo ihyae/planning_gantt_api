@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
+import { GanttProjectDto } from './dto/gantt-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
 
 @Injectable()
 export class GanttProjectService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createGanttProject(
-    project: { name: string; description: string; assignedUsers: string[] },
-    authId: string,
-  ) {
+  async createGanttProject(project: GanttProjectDto, authId: string) {
     const { name, description, assignedUsers } = project;
     return this.prisma.ganttProject.create({
       data: {
@@ -17,11 +16,14 @@ export class GanttProjectService {
         createdBy: {
           connect: { id: authId },
         },
-        assignedUsers: {
-          createMany: {
-            data: assignedUsers.map((userId) => ({ userId })),
-          },
-        },
+        assignedUsers:
+        assignedUsers && assignedUsers.length > 0
+            ? {
+                createMany: {
+                  data: assignedUsers.map((userId) => ({ userId })),
+                },
+              }
+            : {},
       },
       include: {
         createdBy: {
@@ -115,12 +117,8 @@ export class GanttProjectService {
     });
   }
 
-  async updateGanttProject(
-    _id: string,
-    project: { name: string; description: string; assignedUsers: string[] },
-    authId: string,
-  ) {
-    const { name, description, assignedUsers } = project;
+  async updateGanttProject(project: UpdateProjectDto, authId: string) {
+    const { id, name, description, assignedUsers } = project;
     await this.prisma.assignedUserGanttProject.deleteMany({
       where: {
         userId: { in: assignedUsers },
@@ -128,7 +126,7 @@ export class GanttProjectService {
     });
     return this.prisma.ganttProject.update({
       where: {
-        id: _id,
+        id,
         createdBy: {
           id: authId,
         },

@@ -17,6 +17,8 @@ import { Request, Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { TeamLeaderGuard } from 'src/auth/guards/team-leader/team-leader.guard';
 import { GanttProjectService } from './gantt-project.service';
+import { GanttProjectDto } from './dto/gantt-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('gantt-project')
@@ -27,7 +29,7 @@ export class GanttProjectController {
   @Post()
   async create(
     @Body()
-    project: { name: string; description: string; assignedUsers: string[] },
+    project: GanttProjectDto,
     @Req() req: Request,
     @Res() res: Response,
   ) {
@@ -46,7 +48,7 @@ export class GanttProjectController {
       console.error('Create project error:', error);
 
       // / Check if the error is related to a unique constraint violation
-      if (error.meta.target === 'GanttProject_name_key') {
+      if (error.meta?.target === 'GanttProject_name_key') {
         res.status(HttpStatus.CONFLICT).send({
           success: false,
           message: 'Project name must be unique',
@@ -105,11 +107,10 @@ export class GanttProjectController {
   }
 
   @UseGuards(TeamLeaderGuard)
-  @Patch(':id')
+  @Patch()
   async update(
-    @Param('id') id: string,
     @Body()
-    project: { name: string; description: string; assignedUsers: string[] },
+    project: UpdateProjectDto,
     @Req() req: Request,
     @Res() res: Response,
   ) {
@@ -119,7 +120,6 @@ export class GanttProjectController {
         throw new UnauthorizedException('User not authenticated');
       }
       const updatedProject = await this.ganttProjectService.updateGanttProject(
-        id,
         project,
         auth.id,
       );
